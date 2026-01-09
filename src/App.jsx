@@ -1,6 +1,6 @@
 import './App.css'
 import Home from './pages/home/Home.jsx'
-import Payment from './components/Payment.jsx'
+import Payment from './pages/Payment.jsx'
 
 function App() {
 

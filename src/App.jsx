@@ -1,5 +1,5 @@
 import './App.css'
-import Home from './components/Home.jsx'
+import Home from './components/Payment.jsx'
 
 function App() {
 

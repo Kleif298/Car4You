@@ -1,8 +1,45 @@
 .filter-container{
     width:inherit;
-    padding: 20px;
+    padding: 10px 20px;
     height: fit-content;
     background-color: aliceblue;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.filter-container h3 {
+    font-size: 1rem;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.price-budget-selection{
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.time-selection{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.date-time-selection{
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.location-selection select{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
 }

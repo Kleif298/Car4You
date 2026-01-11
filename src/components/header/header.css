@@ -6,4 +6,6 @@ Header{
 
 h1 {
     width: fit-content;
+    color: rgb(82, 129, 171);
+    margin-top: 0;
 }

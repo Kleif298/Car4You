@@ -1,18 +1,35 @@
 .filter-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Spalten */
+    grid-template-rows: auto auto; 
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+.filter-box {
     width:inherit;
-    padding: 10px 20px;
-    height: fit-content;
+    height: inherit;
     background-color: aliceblue;
+    padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
-.filter-container h3 {
+.filter-box-1 {
+    grid-column: 1 / 4; /* Überschrift über alle 3 Spalten */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.filter-box-2 {
+    display: flex;
+    flex-direction: column;
+}
+
+h3 {
     font-size: 1rem;
-    margin: 0 0 8px 0;
+    margin: 0;
     line-height: 1.2;
     font-weight: 500;
 }
@@ -42,4 +59,23 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+}
+
+.geared-selection{
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.geared-selection label{
+    display: flex;
+    flex-direction: row;
+}
+
+.car-type-selection{
+    width: inherit;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }

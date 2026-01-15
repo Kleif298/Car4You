@@ -63,3 +63,95 @@
     font-size: 14px;
     color: #111827;
 }
+
+.pm-container {
+    max-width: 600px;
+}
+
+.pm-details {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.pm-details h3 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    color: #111827;
+}
+
+.pm-form-group {
+    margin-bottom: 16px;
+}
+
+.pm-form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.pm-form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    color: #111827;
+    box-sizing: border-box;
+}
+
+.pm-form-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.pm-form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.pm-form-row .pm-form-group {
+    flex: 1;
+}
+
+.pm-qr {
+    text-align: center;
+}
+
+.pm-qr-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+    background: white;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #9ca3af;
+}
+
+.pm-qr-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.pm-message {
+    text-align: center;
+}
+
+.pm-unavailable {
+    font-size: 16px;
+    color: #dc2626;
+    font-weight: 500;
+    margin: 0;
+}

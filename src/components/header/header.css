@@ -9,3 +9,13 @@ h1 {
     color: rgb(82, 129, 171);
     margin-top: 0;
 }
+
+.title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.title a:hover h1 {
+    opacity: 0.8;
+    cursor: pointer;
+}

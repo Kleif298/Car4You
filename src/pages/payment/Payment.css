@@ -1,0 +1,14 @@
+.page-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+
+}
+
+h1{
+    color: rgb(98, 98, 227);
+    top: 0;
+    left: 0;
+}

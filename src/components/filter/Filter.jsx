@@ -1,12 +1,34 @@
 import { useState, useEffect } from 'react'
 import './filter.css'
 
-export default function Filter({ onFilterChange }) {
-    const [maxPrice, setMaxPrice] = useState(120);
-    const [categories, setCategories] = useState([]);
-    const [transmission, setTransmission] = useState('both');
-    const [priorities, setPriorities] = useState([]);
-    const [extras, setExtras] = useState([]);
+export default function Filter({ onFilterChange, initialFilters }) {
+    const [maxPrice, setMaxPrice] = useState(initialFilters?.maxPrice || 120);
+    const [categories, setCategories] = useState(initialFilters?.categories || []);
+    const [transmission, setTransmission] = useState(initialFilters?.transmission || 'both');
+    const [priorities, setPriorities] = useState(initialFilters?.priorities || []);
+    const [extras, setExtras] = useState(initialFilters?.extras || []);
+    const [startTime, setStartTime] = useState(initialFilters?.startTime || '12:00');
+    const [startDate, setStartDate] = useState(initialFilters?.startDate || getTodayDate());
+    const [endTime, setEndTime] = useState(initialFilters?.endTime || '12:00');
+    const [endDate, setEndDate] = useState(initialFilters?.endDate || getTomorrowDate());
+    const [location, setLocation] = useState(initialFilters?.location || '');
+
+    function getTodayDate() {
+        const today = new Date()
+        const year = today.getFullYear()
+        const month = String(today.getMonth() + 1).padStart(2, '0')
+        const day = String(today.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+    }
+
+    function getTomorrowDate() {
+        const tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        const year = tomorrow.getFullYear()
+        const month = String(tomorrow.getMonth() + 1).padStart(2, '0')
+        const day = String(tomorrow.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+    }
 
     const handlePriceUpdate = (e) => {
         let val = parseInt(e.target.value);
@@ -65,26 +87,14 @@ export default function Filter({ onFilterChange }) {
             categories,
             transmission,
             priorities,
-            extras
+            extras,
+            startTime,
+            startDate,
+            endTime,
+            endDate,
+            location
         });
-    }, [maxPrice, categories, transmission, priorities, extras]);
-
-    const getTodayDate = () => {
-        const today = new Date()
-        const year = today.getFullYear()
-        const month = String(today.getMonth() + 1).padStart(2, '0')
-        const day = String(today.getDate()).padStart(2, '0')
-        return `${year}-${month}-${day}`
-    }
-
-    const getTomorrowDate = () => {
-        const tomorrow = new Date()
-        tomorrow.setDate(tomorrow.getDate() + 1)
-        const year = tomorrow.getFullYear()
-        const month = String(tomorrow.getMonth() + 1).padStart(2, '0')
-        const day = String(tomorrow.getDate()).padStart(2, '0')
-        return `${year}-${month}-${day}`
-    }
+    }, [maxPrice, categories, transmission, priorities, extras, startTime, startDate, endTime, endDate, location]);
 
     return (
         <div className="filter-container">
@@ -94,13 +104,10 @@ export default function Filter({ onFilterChange }) {
                 <h3>Abholort</h3>
                 
                 <div className="price-budget-selection">
-                    <input 
-                        type="number" 
-                        min="0" 
-                        max="120" 
-                        value={maxPrice} 
-                        onChange={handlePriceUpdate}
-                    />
+                    <div className="price-display">
+                        <span className="price-value">{maxPrice}</span>
+                        <span className="price-currency">CHF</span>
+                    </div>
                     <input 
                         type="range" 
                         min="1" 
@@ -114,18 +121,18 @@ export default function Filter({ onFilterChange }) {
                 <div className="time-selection">
                     <div className="date-time-selection starting-point">
                         Von:
-                        <input type="time" defaultValue="12:00" />
-                        <input type="date" defaultValue={getTodayDate()} />
+                        <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+                        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
                     </div>
                     <div className="date-time-selection ending-point">
                         Bis:
-                        <input type="time" defaultValue="12:00" />
-                        <input type="date" defaultValue={getTomorrowDate()} />
+                        <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+                        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
                     </div>
                 </div>
                 
                 <div className="location-selection">
-                    <select>
+                    <select value={location} onChange={(e) => setLocation(e.target.value)}>
                         <option value="">Bitte wählen...</option>
                         <option value="berlin">Berlin</option>
                         <option value="koeln">Köln</option>

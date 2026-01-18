@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import PaymentMethod from '../../components/payment-method/Payment-method'
 import ImageGallery from '../../components/image-gallery/ImageGallery'
@@ -7,6 +7,7 @@ import './Payment.css'
 
 export default function Payment() {
     const location = useLocation()
+    const navigate = useNavigate()
     const selectedCar = location.state?.car || {
         name: 'Mietauto',
         category: 'Standard',
@@ -58,6 +59,12 @@ export default function Payment() {
     const extrasTotal = calculateExtrasTotal()
     const carTotal = selectedCar.price * rentalDays
     const totalAmount = carTotal + extrasTotal
+
+    const handlePayment = () => {
+        if (selectedPayment) {
+            navigate('/success')
+        }
+    }
 
     return (
         <div className="page-content">
@@ -183,7 +190,7 @@ export default function Payment() {
                                 <span>CHF {totalAmount}</span>
                             </div>
                             {selectedPayment && (
-                                <button className="pay-button">Jetzt zahlen</button>
+                                <button className="pay-button" onClick={handlePayment}>Jetzt zahlen</button>
                             )}
                         </div>
                     </div>

@@ -256,7 +256,7 @@ export default function Carousel({ filters }) {
     }
 
     const handleSelectCar = () => {
-        navigate('/booking', { state: { car: currentCar } })
+        navigate('/booking', { state: { car: currentCar, filters: filters } })
     }
 
     const handleImageClick = () => {

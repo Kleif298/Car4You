@@ -3,10 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import './Booking.css'
 
-export default function Booking() {
+export default function Booking({ globalFilters }) {
     const location = useLocation()
     const navigate = useNavigate()
     const selectedCar = location.state?.car
+    const filtersFromNavigation = location.state?.filters || globalFilters
 
     if (!selectedCar) {
         navigate('/')
@@ -18,19 +19,23 @@ export default function Booking() {
         nachname: '',
         email: '',
         telefon: '+41',
-        abholdatum: '',
-        abholzeit: '',
-        rueckgabedatum: '',
-        rueckgabezeit: '',
+        abholdatum: filtersFromNavigation?.startDate || '',
+        abholzeit: filtersFromNavigation?.startTime || '',
+        rueckgabedatum: filtersFromNavigation?.endDate || '',
+        rueckgabezeit: filtersFromNavigation?.endTime || '',
+        abholort: filtersFromNavigation?.location || '',
         farbe: '',
         extras: {
+            // Extras von Landing Page
+            automatik: filtersFromNavigation?.extras?.includes('automatik') || false,
+            klimaanlage: filtersFromNavigation?.extras?.includes('klimaanlage') || false,
+            navigation: filtersFromNavigation?.extras?.includes('navigation') || false,
+            // Extras von Booking Page
             kindersitz: false,
             zusatzfahrer: false,
-            navigationssystem: false,
             dachbox: false,
             vollkasko: false
         },
-        prioritaet: '',
         bemerkungen: ''
     })
 
@@ -88,8 +93,6 @@ export default function Booking() {
             }
         }
 
-        if (!formData.prioritaet) newErrors.prioritaet = 'Priorität erforderlich'
-
         if (formData.bemerkungen.length > 250) {
             newErrors.bemerkungen = 'Maximal 250 Zeichen erlaubt'
         }
@@ -115,18 +118,103 @@ export default function Booking() {
         return today.toISOString().split('T')[0]
     }
 
+    const getLocationLabel = (locationValue) => {
+        const locations = {
+            'berlin': 'Berlin',
+            'koeln': 'Köln',
+            'frankfurt': 'Frankfurt'
+        }
+        return locations[locationValue] || 'Nicht ausgewählt'
+    }
+
+    const getCategoryLabels = () => {
+        if (!filtersFromNavigation?.categories || filtersFromNavigation.categories.length === 0) {
+            return 'Alle Kategorien'
+        }
+        const labels = {
+            'city': 'City',
+            'family': 'Familie',
+            'suv': 'SUV',
+            'sport': 'Sport',
+            'electric': 'E-Car'
+        }
+        return filtersFromNavigation.categories.map(cat => labels[cat] || cat).join(', ')
+    }
+
+    const getTransmissionLabel = () => {
+        const labels = {
+            'both': 'Beides',
+            'automatic': 'Automatik',
+            'manual': 'Manuell'
+        }
+        return labels[filtersFromNavigation?.transmission] || 'Beides'
+    }
+
+    const getPriorityLabels = () => {
+        if (!filtersFromNavigation?.priorities || filtersFromNavigation.priorities.length === 0) {
+            return 'Keine ausgewählt'
+        }
+        const labels = {
+            'price': 'Preis',
+            'premium': 'Premium',
+            'family': 'Familie'
+        }
+        return filtersFromNavigation.priorities.map(p => labels[p] || p).join(', ')
+    }
+
+    const getExtrasLabels = () => {
+        if (!filtersFromNavigation?.extras || filtersFromNavigation.extras.length === 0) {
+            return 'Keine ausgewählt'
+        }
+        const labels = {
+            'automatik': 'Automatik',
+            'klimaanlage': 'Klimaanlage',
+            'navigation': 'Navigation'
+        }
+        return filtersFromNavigation.extras.map(e => labels[e] || e).join(', ')
+    }
+
     return (
         <div className="page-content">
             <Header />
             
             <div className="booking-page">
-                <h2 className="booking-title">Reservation - {selectedCar.name}</h2>
+                <div className="booking-header">
+                    <button className="back-button" onClick={() => navigate('/')}>
+                        ← Zurück zur Startseite
+                    </button>
+                    <h2 className="booking-title">Reservation - {selectedCar.name}</h2>
+                </div>
                 
-                <div className="booking-car-summary">
-                    <img src={selectedCar.image} alt={selectedCar.name} className="booking-car-image" />
-                    <div className="booking-car-info">
-                        <span className="car-category-badge">{selectedCar.category}</span>
-                        <p className="booking-car-price">CHF {selectedCar.price}/Tag</p>
+                <div className="booking-header-container">
+                    <div className="booking-car-summary">
+                        <img src={selectedCar.image} alt={selectedCar.name} className="booking-car-image" />
+                        <div className="booking-car-info">
+                            <span className="car-category-badge">{selectedCar.category}</span>
+                            <p className="booking-car-price">CHF {selectedCar.price}/Tag</p>
+                        </div>
+                    </div>
+
+                    <div className="filter-summary">
+                        <h3>Ihre Filterauswahl</h3>
+                        <div className="filter-summary-grid">
+                            <div className="filter-summary-item">
+                                <span className="filter-label">Tagesbudget:</span>
+                                <span className="filter-value">CHF {filtersFromNavigation?.maxPrice || 120}</span>
+                            </div>
+                            <div className="filter-summary-item">
+                                <span className="filter-label">Kategorien:</span>
+                                <span className="filter-value">{getCategoryLabels()}</span>
+                            </div>
+                            <div className="filter-summary-item">
+                                <span className="filter-label">Getriebe:</span>
+                                <span className="filter-value">{getTransmissionLabel()}</span>
+                            </div>
+                            <div className="filter-summary-item">
+                                <span className="filter-label">Prioritäten:</span>
+                                <span className="filter-value">{getPriorityLabels()}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -247,6 +335,24 @@ export default function Booking() {
                                 {errors.rueckgabezeit && <span className="error-message">{errors.rueckgabezeit}</span>}
                             </div>
                         </div>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label htmlFor="abholort">Abholort *</label>
+                                <select
+                                    id="abholort"
+                                    name="abholort"
+                                    value={formData.abholort}
+                                    onChange={handleInputChange}
+                                    className={errors.abholort ? 'error' : ''}
+                                >
+                                    <option value="">Bitte wählen...</option>
+                                    <option value="berlin">Berlin</option>
+                                    <option value="koeln">Köln</option>
+                                    <option value="frankfurt">Frankfurt</option>
+                                </select>
+                                {errors.abholort && <span className="error-message">{errors.abholort}</span>}
+                            </div>
+                        </div>
                     </section>
 
                     {/* Vehicle Options */}
@@ -273,8 +379,27 @@ export default function Booking() {
 
                     {/* Extras */}
                     <section className="form-section">
-                        <h3>Extras</h3>
+                        <h3>Zusätzliche Extras (bearbeitbar)</h3>
+                        <p className="section-hint">Die ausgewählten Extras von der Startseite sind bereits inklusive. Wählen Sie hier zusätzliche Extras:</p>
                         <div className="extras-grid">
+                            {formData.extras.automatik && (
+                                <div className="extra-included">
+                                    <span>✓ Automatik</span>
+                                    <small>(von Filterauswahl)</small>
+                                </div>
+                            )}
+                            {formData.extras.klimaanlage && (
+                                <div className="extra-included">
+                                    <span>✓ Klimaanlage</span>
+                                    <small>(von Filterauswahl)</small>
+                                </div>
+                            )}
+                            {formData.extras.navigation && (
+                                <div className="extra-included">
+                                    <span>✓ Navigation</span>
+                                    <small>(von Filterauswahl)</small>
+                                </div>
+                            )}
                             <label className="checkbox-label">
                                 <input
                                     type="checkbox"
@@ -296,15 +421,6 @@ export default function Booking() {
                             <label className="checkbox-label">
                                 <input
                                     type="checkbox"
-                                    name="navigationssystem"
-                                    checked={formData.extras.navigationssystem}
-                                    onChange={handleExtraChange}
-                                />
-                                Navigationssystem
-                            </label>
-                            <label className="checkbox-label">
-                                <input
-                                    type="checkbox"
                                     name="dachbox"
                                     checked={formData.extras.dachbox}
                                     onChange={handleExtraChange}
@@ -321,54 +437,6 @@ export default function Booking() {
                                 Vollkasko
                             </label>
                         </div>
-                    </section>
-
-                    {/* Priority */}
-                    <section className="form-section">
-                        <h3>Wichtigste Priorität *</h3>
-                        <div className="radio-group">
-                            <label className="radio-label">
-                                <input
-                                    type="radio"
-                                    name="prioritaet"
-                                    value="preis"
-                                    checked={formData.prioritaet === 'preis'}
-                                    onChange={handleInputChange}
-                                />
-                                Preis
-                            </label>
-                            <label className="radio-label">
-                                <input
-                                    type="radio"
-                                    name="prioritaet"
-                                    value="komfort"
-                                    checked={formData.prioritaet === 'komfort'}
-                                    onChange={handleInputChange}
-                                />
-                                Komfort
-                            </label>
-                            <label className="radio-label">
-                                <input
-                                    type="radio"
-                                    name="prioritaet"
-                                    value="nachhaltigkeit"
-                                    checked={formData.prioritaet === 'nachhaltigkeit'}
-                                    onChange={handleInputChange}
-                                />
-                                Nachhaltigkeit
-                            </label>
-                            <label className="radio-label">
-                                <input
-                                    type="radio"
-                                    name="prioritaet"
-                                    value="design"
-                                    checked={formData.prioritaet === 'design'}
-                                    onChange={handleInputChange}
-                                />
-                                Design
-                            </label>
-                        </div>
-                        {errors.prioritaet && <span className="error-message">{errors.prioritaet}</span>}
                     </section>
 
                     {/* Comments */}

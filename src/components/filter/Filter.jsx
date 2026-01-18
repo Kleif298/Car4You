@@ -1,26 +1,90 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'
 import './filter.css'
 
-export default function Filter() {
-    const [wert, setWert] = useState(50);
+export default function Filter({ onFilterChange }) {
+    const [maxPrice, setMaxPrice] = useState(120);
+    const [categories, setCategories] = useState([]);
+    const [transmission, setTransmission] = useState('both');
+    const [priorities, setPriorities] = useState([]);
+    const [extras, setExtras] = useState([]);
 
-    const handleUpdate = (e) => {
-        let val = e.target.value;
-    
-        if (val > 100) val = 100;
+    const handlePriceUpdate = (e) => {
+        let val = parseInt(e.target.value);
+        if (val > 120) val = 120;
         if (val < 0) val = 0;
-        
-        setWert(val);
+        setMaxPrice(val);
     };
+    
+    const handleCategoryChange = (e) => {
+        const value = e.target.value;
+        const checked = e.target.checked;
+        
+        setCategories(prev => {
+            if (checked) {
+                return [...prev, value];
+            } else {
+                return prev.filter(cat => cat !== value);
+            }
+        });
+    };
+    
+    const handleTransmissionChange = (e) => {
+        setTransmission(e.target.value);
+    };
+    
+    const handlePriorityChange = (e) => {
+        const value = e.target.value;
+        const checked = e.target.checked;
+        
+        setPriorities(prev => {
+            if (checked) {
+                return [...prev, value];
+            } else {
+                return prev.filter(p => p !== value);
+            }
+        });
+    };
+    
+    const handleExtrasChange = (e) => {
+        const value = e.target.value;
+        const checked = e.target.checked;
+        
+        setExtras(prev => {
+            if (checked) {
+                return [...prev, value];
+            } else {
+                return prev.filter(ex => ex !== value);
+            }
+        });
+    };
+    
+    // Notify parent component when filters change
+    useEffect(() => {
+        onFilterChange({
+            maxPrice,
+            categories,
+            transmission,
+            priorities,
+            extras
+        });
+    }, [maxPrice, categories, transmission, priorities, extras]);
 
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
+    const getTodayDate = () => {
+        const today = new Date()
+        const year = today.getFullYear()
+        const month = String(today.getMonth() + 1).padStart(2, '0')
+        const day = String(today.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+    }
 
-    const pad = (n) => n.toString().padStart(2, '0');
-    const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
-    const tomorrowStr = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth() + 1)}-${pad(tomorrow.getDate())}`;
-    const defaultTime = "12:00";
+    const getTomorrowDate = () => {
+        const tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        const year = tomorrow.getFullYear()
+        const month = String(tomorrow.getMonth() + 1).padStart(2, '0')
+        const day = String(tomorrow.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+    }
 
     return (
         <div className="filter-container">
@@ -33,16 +97,16 @@ export default function Filter() {
                     <input 
                         type="number" 
                         min="0" 
-                        max="100" 
-                        value={wert} 
-                        onChange={handleUpdate}
+                        max="120" 
+                        value={maxPrice} 
+                        onChange={handlePriceUpdate}
                     />
                     <input 
                         type="range" 
                         min="1" 
-                        max="100" 
-                        value={wert} 
-                        onChange={handleUpdate} 
+                        max="120" 
+                        value={maxPrice} 
+                        onChange={handlePriceUpdate}
                         className="slider" 
                     />
                 </div>
@@ -50,13 +114,13 @@ export default function Filter() {
                 <div className="time-selection">
                     <div className="date-time-selection starting-point">
                         Von:
-                        <input type="time" defaultValue={defaultTime} />
-                        <input type="date" defaultValue={todayStr} />
+                        <input type="time" defaultValue="12:00" />
+                        <input type="date" defaultValue={getTodayDate()} />
                     </div>
                     <div className="date-time-selection ending-point">
                         Bis:
-                        <input type="time" defaultValue={defaultTime} />
-                        <input type="date" defaultValue={tomorrowStr} />
+                        <input type="time" defaultValue="12:00" />
+                        <input type="date" defaultValue={getTomorrowDate()} />
                     </div>
                 </div>
                 
@@ -64,8 +128,6 @@ export default function Filter() {
                     <select>
                         <option value="">Bitte wählen...</option>
                         <option value="berlin">Berlin</option>
-                        <option value="hamburg">Hamburg</option>
-                        <option value="muenchen">München</option>
                         <option value="koeln">Köln</option>
                         <option value="frankfurt">Frankfurt</option>
                     </select>
@@ -75,46 +137,74 @@ export default function Filter() {
                 <h3>Autotyp</h3>
                 <div className="geared-selection">
                     <label>
-                        <input type="radio" name="geared-status" value="both" defaultChecked />
+                        <input type="radio" name="geared-status" value="both" checked={transmission === 'both'} onChange={handleTransmissionChange} />
                         Beides
                     </label>
                     <label>
-                        <input type="radio" name="geared-status" value="geared" />
-                        Geschalten
+                        <input type="radio" name="geared-status" value="automatic" checked={transmission === 'automatic'} onChange={handleTransmissionChange} />
+                        Automatik
                     </label>
                     <label>
-                        <input type="radio" name="geared-status" value="manual" />
+                        <input type="radio" name="geared-status" value="manual" checked={transmission === 'manual'} onChange={handleTransmissionChange} />
                         Manuell
                     </label>
                 </div>
                 <div className="car-type-selection">
                     <label>
-                        <input type="checkbox" name="car-type" value="city" />
+                        <input type="checkbox" name="car-type" value="city" onChange={handleCategoryChange} />
                         City
                     </label>
                     <label>
-                        <input type="checkbox" name="car-type" value="family" />
+                        <input type="checkbox" name="car-type" value="family" onChange={handleCategoryChange} />
                         Familie
                     </label>
                     <label>
-                        <input type="checkbox" name="car-type" value="suv" />
+                        <input type="checkbox" name="car-type" value="suv" onChange={handleCategoryChange} />
                         SUV
                     </label>
                     <label>
-                        <input type="checkbox" name="car-type" value="sport" />
+                        <input type="checkbox" name="car-type" value="sport" onChange={handleCategoryChange} />
                         Sport
                     </label>
                     <label>
-                        <input type="checkbox" name="car-type" value="electric" />
+                        <input type="checkbox" name="car-type" value="electric" onChange={handleCategoryChange} />
                         E-Car
                     </label>
                 </div>
             </div>
             <div className="filter-box filter-box-3">
                 <h3>Priorität</h3>
+                <div className="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="priority" value="price" onChange={handlePriorityChange} />
+                        Preis
+                    </label>
+                    <label>
+                        <input type="checkbox" name="priority" value="premium" onChange={handlePriorityChange} />
+                        Premium
+                    </label>
+                    <label>
+                        <input type="checkbox" name="priority" value="family" onChange={handlePriorityChange} />
+                        Familie
+                    </label>
+                </div>
             </div>
-            <div className="filter-box filter-box-3">
+            <div className="filter-box filter-box-4">
                 <h3>Extras</h3>
+                <div className="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="extras" value="automatik" onChange={handleExtrasChange} />
+                        Automatik
+                    </label>
+                    <label>
+                        <input type="checkbox" name="extras" value="klimaanlage" onChange={handleExtrasChange} />
+                        Klimaanlage
+                    </label>
+                    <label>
+                        <input type="checkbox" name="extras" value="navigation" onChange={handleExtrasChange} />
+                        Navigation
+                    </label>
+                </div>
             </div>
         </div>
     )

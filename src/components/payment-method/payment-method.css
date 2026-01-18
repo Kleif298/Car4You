@@ -124,19 +124,19 @@
     text-align: center;
 }
 
-.pm-qr-placeholder {
+.pm-qr-container {
     display: flex;
-    align-items: center;
     justify-content: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+}
+
+.pm-qr-image {
     width: 200px;
     height: 200px;
-    margin: 20px auto;
-    background: white;
-    border: 2px dashed #d1d5db;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #9ca3af;
+    object-fit: contain;
 }
 
 .pm-qr-text {

@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './payment-method.css'
 import bankLogo from '../../assets/pictures/payment/bank.jpg'
 import cardLogo from '../../assets/pictures/payment/card.png'
 import twintLogo from '../../assets/pictures/payment/twint.png'
 import paypalLogo from '../../assets/pictures/payment/paypal.png'
+import qrCode from '../../assets/pictures/payment/qr-code.png'
 
 const OPTIONS = [
     { id: 'bank', label: 'Bank', logo: bankLogo },
@@ -121,8 +122,8 @@ export default function PaymentMethod({ onChange }) {
             {selected === 'twint' && (
                 <div className="pm-details pm-qr">
                     <h3>Twint QR-Code</h3>
-                    <div className="pm-qr-placeholder">
-                        [QR Code]
+                    <div className="pm-qr-container">
+                        <img src={qrCode} alt="Twint QR Code" className="pm-qr-image" />
                     </div>
                     <p className="pm-qr-text">Scannen Sie diesen QR-Code mit Ihrer Twint-App</p>
                 </div>

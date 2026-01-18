@@ -1,14 +1,284 @@
 .page-content{
     width: 100%;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: start;
     gap: 1rem;
-
+    padding: 0 2rem;
+    box-sizing: border-box;
 }
 
-h1{
+.payment-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #f8f9fa;
+}
+
+.payment-title {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #333;
+    margin: 0 0 2rem 0;
+}
+
+.payment-container {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 24px;
+}
+
+.payment-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.payment-right {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.booking-summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.summary-car-image {
+    width: 200px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #f5f5f5;
+    flex-shrink: 0;
+}
+
+.summary-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.car-category-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #1976d2;
+    background: #e3f2fd;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    width: fit-content;
+}
+
+.summary-details h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.summary-description {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.summary-specs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 4px 0;
+}
+
+.spec-tag {
+    padding: 4px 10px;
+    background: #e8e8e8;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #333;
+    font-weight: 500;
+}
+
+.booking-details {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 1.5rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 0;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.detail-value {
+    color: #111827;
+    font-size: 14px;
+    text-align: right;
+    max-width: 60%;
+}
+
+.detail-value.remarks {
+    text-align: right;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.detail-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 12px 0;
+}
+
+.extras-title {
+    font-size: 16px;
+    font-weight: 600;
     color: rgb(98, 98, 227);
-    top: 0;
-    left: 0;
+    margin: 12px 0;
+}
+
+.extras-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.extra-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.extra-name {
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.extra-price {
+    color: rgb(98, 98, 227);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.price-summary {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 1.5rem;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.price-row.total {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+    padding-top: 16px;
+}
+
+.price-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 12px 0;
+}
+
+.reserve-button {
+    padding: 12px 32px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: flex-start;
+}
+
+.reserve-button:hover {
+    background: #2563eb;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 1rem 0;
+}
+
+.pay-button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 20px;
+}
+
+.pay-button:hover {
+    background: #1976d2;
+}
+
+.pay-button:active {
+    background: #1565c0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .payment-container {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-right {
+        position: static;
+    }
+
+    .booking-summary {
+        flex-direction: column;
+    }
+
+    .summary-car-image {
+        width: 100%;
+        height: 200px;
+    }
+
+    .detail-value {
+        max-width: 70%;
+    }
 }

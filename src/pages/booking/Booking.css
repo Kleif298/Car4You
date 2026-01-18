@@ -1,0 +1,231 @@
+.booking-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #f8f9fa;
+}
+
+.booking-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #333;
+    font-weight: 400;
+}
+
+.booking-car-summary {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    border: 1px solid #e0e0e0;
+}
+
+.booking-car-image {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f5f5f5;
+}
+
+.booking-car-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.booking-car-info .car-category-badge {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    width: fit-content;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.booking-car-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-section {
+    background: #f0f2f5;
+    padding: 1.5rem;
+    border-radius: 4px;
+    border: none;
+}
+
+.form-section h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row:last-child {
+    margin-bottom: 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #888;
+}
+
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+    border-color: #e74c3c;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: -0.25rem;
+}
+
+.extras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.checkbox-label,
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0;
+    transition: none;
+    font-weight: 400;
+    background: transparent;
+}
+
+.checkbox-label:hover,
+.radio-label:hover {
+    background: transparent;
+}
+
+.checkbox-label input[type="checkbox"],
+.radio-label input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.radio-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.char-count {
+    font-size: 0.85rem;
+    color: #888;
+    text-align: right;
+    margin-top: -0.25rem;
+}
+
+.submit-button {
+    background: #2196f3;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 400;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.submit-button:hover {
+    background: #1976d2;
+}
+
+.submit-button:active {
+    background: #1565c0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .booking-page {
+        padding: 1rem;
+    }
+
+    .booking-car-summary {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .booking-car-image {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .booking-car-info .car-category-badge {
+        margin: 0 auto;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .extras-grid,
+    .radio-group {
+        grid-template-columns: 1fr;
+    }
+
+    .form-section {
+        padding: 1rem;
+    }
+}
